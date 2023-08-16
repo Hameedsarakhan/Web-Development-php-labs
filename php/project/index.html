@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>User Profile</title>
+  <style>
+
+    .profile {
+      background-color: lightblue;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  h1 {
+    text-align: center;
+  }
+  
+  .profile-details {
+    margin-top: 20px;
+  }
+  
+  p {
+    margin-bottom: 10px;
+  }
+  
+  strong {
+    font-weight: bold;
+  }
+  </style>
+</head>
+<body>
+  <script>
+    window.addEventListener('DOMContentLoaded', fetchProfileData);
+
+    function fetchProfileData() {
+      // Make an AJAX request to retrieve user profile data from the PHP script
+      const xhr = new XMLHttpRequest();
+      xhr.open('GET', 'profile.php?id=1'); // Replace '123' with the actual user ID
+      xhr.onreadystatechange = function() {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+          if (xhr.status === 200) {
+            const profileData = JSON.parse(xhr.responseText);
+            updateProfileDetails(profileData);
+          } else {
+            console.error('An error occurred while fetching user profile data.');
+          }
+        }
+      };
+      xhr.send();
+    }
+
+    function updateProfileDetails(data) {
+      // Update the profile details in the HTML
+      document.getElementById('name').textContent = data.name;
+      document.getElementById('email').textContent = data.email;
+    }
+  </script>
+
+  <div class="profile">
+    <h1>Profile</h1>
+    <div class="profile-details">
+      <p><strong>Name:</strong> <span id="name"></span></p>
+      <p><strong>Email:</strong> <span id="email"></span></p>
+    </div>
+  </div>
+</body>
+</html>
